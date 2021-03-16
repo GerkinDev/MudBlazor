@@ -73,7 +73,7 @@
     }
 }
 
-.mud-shrink + label {
+.mud-shrink ~ label {
     &.mud-input-label.mud-input-label-inputcontrol {
         color: var(--mud-palette-text-primary);
         transform: translate(0, 1.5px) scale(0.75);
