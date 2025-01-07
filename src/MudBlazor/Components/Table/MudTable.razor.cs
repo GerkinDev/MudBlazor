@@ -261,6 +261,16 @@ namespace MudBlazor
         public Func<T, int, string>? RowStyleFunc { get; set; }
 
         /// <summary>
+        /// The function which returns attributes for a row.
+        /// </summary>
+        /// <remarks>
+        /// The current item and row index are provided to the function.
+        /// </remarks>
+        [Parameter]
+        [Category(CategoryTypes.Table.Rows)]
+        public Func<T, int, Dictionary<string, object?>>? RowAttrsFunc { get; set; }
+
+        /// <summary>
         /// The currently selected item when <c>MultiSelection</c> is <c>false</c>.
         /// </summary>
         /// <remarks>

@@ -581,6 +581,16 @@ namespace MudBlazor
         public string? RowStyle { get; set; }
 
         /// <summary>
+        /// The attributes applied to each row.
+        /// </summary>
+        /// <remarks>
+        /// Some attributes will be overridden by <see cref="MudTd"/>.
+        /// </remarks>
+        [Parameter]
+        [Category(CategoryTypes.Table.Rows)]
+        public Dictionary<string, object?>? RowAttrs { get; set; }
+
+        /// <summary>
         /// Uses virtualization to display large amounts of items efficiently.
         /// </summary>
         /// <remarks>

@@ -94,12 +94,15 @@
                         {
                             var rowIndex = 0;
                                 <MudVirtualize Enabled="@Virtualize" Items="@CurrentPageItems?.ToList()" OverscanCount="@OverscanCount" ItemSize="@ItemSize" Context="item">
-                               @{ var rowClass = new CssBuilder(RowClass).AddClass(RowClassFunc?.Invoke(item, rowIndex)).Build(); }
-                               @{ var rowStyle = new StyleBuilder().AddStyle(RowStyle).AddStyle(RowStyleFunc?.Invoke(item, rowIndex)).Build(); }
+                               @{ var rowAttrs = RowAttrs ?? []; rowAttrs = rowAttrs.Concat((RowAttrsFunc?.Invoke(item, rowIndex) ?? []).Where( x=> !rowAttrs.Keys.Contains(x.Key))).ToDictionary(); }
+                               @{ var rowClass = new CssBuilder(RowClass).AddClass(RowClassFunc?.Invoke(item, rowIndex)).AddClassFromAttributes(rowAttrs).Build(); }
+                               @{ var rowStyle = new StyleBuilder().AddStyle(RowStyle).AddStyle(RowStyleFunc?.Invoke(item, rowIndex)).AddStyleFromAttributes(rowAttrs).Build(); }
+                               @{ rowAttrs.Remove("class"); rowAttrs.Remove("style"); }
                                <MudTr Class="@rowClass" Style="@rowStyle" Item="item" @key="item"
                                       Checkable="MultiSelection" SelectionChangeable="SelectionChangeable" Editable="IsItemEditable(item)"
                                       Checked="@(IsCheckedRow(item))"
-                                      CheckedChanged="((value) => { var x = item; OnRowCheckboxChanged(value, x); })">
+                                      CheckedChanged="((value) => { var x = item; OnRowCheckboxChanged(value, x); })"
+                                      UserAttributes="@rowAttrs">
 
                                    @if ((!ReadOnly) && Editable && Equals(_editingItem, item))
                                    {
